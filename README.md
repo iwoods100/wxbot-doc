@@ -108,6 +108,8 @@ if __name__ == "__main__":
 
 目前开放以下接口
 
+* 使用本接口前建议先对接消息同步功能，因为消息里会包含UserName这类参数，能方便的获取群id/用户微信号
+
 ##### 给指定群/用户发送文本消息
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
