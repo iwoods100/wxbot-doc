@@ -108,51 +108,51 @@ if __name__ == "__main__":
 
 目前开放以下接口
 
-##### 给指定用户发送文本消息
+##### 给指定群/用户发送文本消息
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
 
 Payload:
 {
-  "UserName": "对方微信号",
+  "UserName": "群id/对方微信号",
   "Content": "文本内容",
   "Token": "微信号绑定token"
 }
 ```
 
-##### 发送指定用户图片消息
+##### 给指定群/用户发送图片消息
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendImage?key=***
 
 Payload:
 {
-  "UserName": "对方微信号",
+  "UserName": "群id/对方微信号",
   "Base64Image": "图片base64编码文本",
   "Token": "微信号绑定token"
 }
 ```
 
-##### 发送指定用户语音消息
+##### 给指定群/用户发送语音消息
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
 
 Payload:
 {
   "Type": 0,  # 音频格式：AMR = 0, SPEEX = 1, MP3 = 2, WAVE = 3, SILK = 4
-  "UserName": "对方微信号",
+  "UserName": "群id/对方微信号",
   "DataFileBase64": "音频文件BASE64",
   "VoiceTime": "音频时长，单位毫秒",
   "Token": "微信号绑定token"
 }
 ```
 
-##### 发送指定用户视频消息（请限制视频大小在3M内）
+##### 给指定群/用户发送视频消息（请限制视频大小在3M内）
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
 
 Payload:
 {
-  "UserName": "对方微信号",
+  "UserName": "群id/对方微信号",
   "VideoFileBase64": "视频文件BASE64",
   "ImageFileBase64": "缩略图文件BASE64",
   "VideoTime": "视频时长，单位毫秒",
