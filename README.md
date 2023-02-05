@@ -55,7 +55,7 @@
 | key | 账号Key（不是Token！是登录用的那个！） | String | / |
 
 发送数据示例：
-``` json
+```Python
 {
 	"app": "wxbot",
 	"version": "1.0",
@@ -67,10 +67,10 @@
 | 键值 | 解释 | 类型 | 示例 |
 | --- | --- | --- | --- |
 | msg | 鉴权结果（中文消息内容） | String | / |
-| retCode | 鉴权结果代码，```0```为成功，```1000```为鉴权失败，请根据此字段判断鉴权是否成功 | String | / |
+| retCode | 鉴权结果代码，```0```为成功，```1000```为鉴权失败，请根据此字段判断鉴权是否成功 | Int | / |
 
 接收数据示例：
-``` json
+```Python
 # 鉴权成功返回
 {
   "type": "AuthCheckResult",
@@ -92,7 +92,7 @@
 + 收到个人/群聊聊天信息｜eventType=AddMsg
 
 标准JSON数据包格式如下：
-``` json
+```Python
 {
     "userInfo": {
       "wxid": "wxid_***", # 用户id
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     asyncio.run(main())  # 需要python>=3.7
 ```
 
-## API列表
+## HTTP API列表
 
 #### 鉴权
 所有请求都需要传账号key进行鉴权
@@ -193,12 +193,12 @@ if __name__ == "__main__":
 
 #### 目前开放以下接口
 
+* 接口均为POST方式请求，返回ok=true表示服务器处理成功，但实际业务是否成功请看result字段
 * 使用本接口前建议先对接消息同步功能，因为消息里会包含UserName这类参数，能方便的获取群id/用户微信号
+* 友情提示：群id的格式以@chatroom结尾
 
-```
-接口均为POST方式请求，返回ok=true表示服务器处理成功，但实际业务是否成功请看result字段
-
-eg: 服务器处理成功
+```Python
+# 服务器处理成功
 {
     "ok": true,
     "result": {***},
@@ -206,7 +206,7 @@ eg: 服务器处理成功
     "cost": true
 }
 
-eg: 服务器处理失败
+# 服务器处理失败
 {
     "ok": false,
     "retCode": 1001,
@@ -215,54 +215,86 @@ eg: 服务器处理失败
 ```
 
 ##### 给指定群/用户发送文本消息
+
+| 键值 | 解释 | 类型 | 示例 |
+| --- | --- | --- | --- |
+| Token | 微信号绑定token | String | / |
+| UserName | 群id/对方微信号 | String | wxid_123 |
+| Content | 文本内容 | String | / |
+
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
 
 Payload:
 {
-  "UserName": "群id/对方微信号",
-  "Content": "文本内容",
-  "Token": "微信号绑定token"
+  "UserName": "wxid_123",
+  "Content": "你好",
+  "Token": "****"
 }
 ```
 
 ##### 给指定群/用户发送图片消息
+
+| 键值 | 解释 | 类型 | 示例 |
+| --- | --- | --- | --- |
+| Token | 微信号绑定token | String | / |
+| UserName | 群id/对方微信号 | String | / |
+| Base64Image | 图片base64编码文本 | String | / |
+
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendImage?key=***
 
 Payload:
 {
-  "UserName": "群id/对方微信号",
-  "Base64Image": "图片base64编码文本",
-  "Token": "微信号绑定token"
+  "UserName": "wxid_123",
+  "Base64Image": "data:base64;image/png,xxxxxxxxxxxx",
+  "Token": "****"
 }
 ```
 
 ##### 给指定群/用户发送语音消息
+
+| 键值 | 解释 | 类型 | 示例 |
+| --- | --- | --- | --- |
+| Token | 微信号绑定token | String | / |
+| Type | 音频格式：AMR = 0, SPEEX = 1, MP3 = 2, WAVE = 3, SILK = 4 | Int | / |
+| UserName | 群id/对方微信号 | String | / |
+| DataFileBase64 | 音频文件BASE64 | String | / |
+| VoiceTime | 音频时长，单位毫秒 | Int | / |
+
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
 
 Payload:
 {
-  "Type": 0,  # 音频格式：AMR = 0, SPEEX = 1, MP3 = 2, WAVE = 3, SILK = 4
-  "UserName": "群id/对方微信号",
-  "DataFileBase64": "音频文件BASE64",
-  "VoiceTime": "音频时长，单位毫秒",
-  "Token": "微信号绑定token"
+  "Type": 0,
+  "UserName": "wxid_123",
+  "DataFileBase64": "******",
+  "VoiceTime": 2000,
+  "Token": "****"
 }
 ```
 
 ##### 给指定群/用户发送视频消息（请限制视频大小在3M内）
+
+| 键值 | 解释 | 类型 | 示例 |
+| --- | --- | --- | --- |
+| Token | 微信号绑定token | String | / |
+| UserName | 群id/对方微信号 | String | / |
+| VideoFileBase64 | 视频文件BASE64 | String | / |
+| ImageFileBase64 | 缩略图文件BASE64 | String | / |
+| VideoTime | 视频时长，单位毫秒 | Int | / |
+
 ```
 POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
 
 Payload:
 {
-  "UserName": "群id/对方微信号",
-  "VideoFileBase64": "视频文件BASE64",
-  "ImageFileBase64": "缩略图文件BASE64",
-  "VideoTime": "视频时长，单位毫秒",
-  "Token": "微信号绑定token"
+  "UserName": "wxid_123",
+  "VideoFileBase64": "******",
+  "ImageFileBase64": "data:base64;image/png,xxxxxxxxxxxx",
+  "VideoTime": 10000,
+  "Token": "****"
 }
 ```
 
