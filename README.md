@@ -52,7 +52,7 @@
 | --- | --- | --- | --- |
 | app | 这是一个固定值，请不要随意更改 | String | ```wxbot``` |
 | version | 这是一个固定值，请不要随意更改 | String | ```1.0``` |
-| key | 账号Key（不是Token！是登录用的那个！） | String | / |
+| key | 账号Key（不是Token） | String | / |
 
 发送数据示例：
 ```Python
@@ -94,12 +94,12 @@
 标准JSON数据包格式如下：
 ```Python
 {
-    "userInfo": {
-      "wxid": "wxid_***", # 用户id
-      "nickname": "用户昵称"
-  	},
-    "eventType": "AddMsg",  # 目前只开放了新增消息事件
-    "event": {...},  # 消息类型，有很多种类，先以实际返回为准
+  "userInfo": {
+    "wxid": "wxid_***", # 用户id
+    "nickname": "用户昵称"
+  },
+  "eventType": "AddMsg",  # 目前只开放了新增消息事件
+  "event": {...},  # 消息类型，有很多种类，先以实际返回为准
 }
 ```
 如果一个key下绑定了多个token，可通过wxid和nickname来判断区分不同微信号。
@@ -198,17 +198,17 @@ if __name__ == "__main__":
 ```Python
 # 服务器处理成功
 {
-    "ok": true,
-    "result": {***},
-    "retCode": 0,
-    "cost": true
+  "ok": true,
+  "result": {***},
+  "retCode": 0,
+  "cost": true
 }
 
 # 服务器处理失败
 {
-    "ok": false,
-    "retCode": 1001,
-    "cost": false
+  "ok": false,
+  "retCode": 1001,
+  "cost": false
 }
 ```
 
