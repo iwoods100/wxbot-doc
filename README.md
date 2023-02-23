@@ -252,52 +252,6 @@ Payload:
 }
 ```
 
-##### 给指定群/用户发送语音消息
-
-| 键值 | 解释 | 类型 | 示例 |
-| --- | --- | --- | --- |
-| Token | 微信号绑定token | String | / |
-| Type | 音频格式：AMR = 0, SPEEX = 1, MP3 = 2, WAVE = 3, SILK = 4 | Int | / |
-| UserName | 群id/对方微信号 | String | / |
-| DataFileBase64 | 音频文件BASE64 | String | / |
-| VoiceTime | 音频时长，单位毫秒 | Int | / |
-
-```
-POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
-
-Payload:
-{
-  "Type": 0,
-  "UserName": "wxid_123",
-  "DataFileBase64": "******",
-  "VoiceTime": 2000,
-  "Token": "****"
-}
-```
-
-##### 给指定群/用户发送视频消息（请限制视频大小在3M内）
-
-| 键值 | 解释 | 类型 | 示例 |
-| --- | --- | --- | --- |
-| Token | 微信号绑定token | String | / |
-| UserName | 群id/对方微信号 | String | / |
-| VideoFileBase64 | 视频文件BASE64 | String | / |
-| ImageFileBase64 | 缩略图文件BASE64 | String | / |
-| VideoTime | 视频时长，单位毫秒 | Int | / |
-
-```
-POST https://api.whosecard.com/wxapi/pc/message/sendText?key=***
-
-Payload:
-{
-  "UserName": "wxid_123",
-  "VideoFileBase64": "******",
-  "ImageFileBase64": "data:base64;image/png,xxxxxxxxxxxx",
-  "VideoTime": 10000,
-  "Token": "****"
-}
-```
-
 ## 免责声明
 
 请在合法范围内使用本程序。任何人因使用本程序造成的意外损失或恶意攻击，项目开发者对此概不负责，亦不承担任何法律责任。
